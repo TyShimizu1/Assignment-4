@@ -5,22 +5,62 @@ import sys
 import string
 sys.setrecursionlimit(10**6)
 
+@dataclass(frozen=True)
+class IntList:
+    first: int
+    rest: Optional["IntList"]
+
+
+@dataclass
+class WordLines:
+    word: str
+    lines: Optional[IntList]
+
+
+@dataclass(frozen=True)
+class WordLinesList:
+    first: WordLines
+    rest: Optional["WordLinesList"]
+
+
+@dataclass
+class HashTable:
+    bins: List[Optional[WordLinesList]]
+    count: int
+
 # Return the hash code of 's' (see assignment description).
 def hash_fn(s: str) -> int:
-pass
+    hash_val:int =0 
+
+    for char in s:
+        hash_val= hash_val *31 +ord(char)
+
+    return hash_val 
 # Make a fresh hash table with the given number of bins 'size',
 # containing no elements.
 def make_hash(size: int) -> HashTable:
-pass
+    return HashTable([None] * size, 0)
+
 # Return the number of bins in 'ht'.
 def hash_size(ht: HashTable) -> int:
-pass
+    return len(ht.bins)
+
 # Return the number of elements (key-value pairs) in 'ht'.
 def hash_count(ht: HashTable) -> int:
-pass
+    return ht.count 
+
 # Return whether 'ht' contains a mapping for the given 'word'.
 def has_key(ht: HashTable, word: str) -> bool:
-pass
+    idx:int = hash_fn(word) % hash_size(ht)
+
+    current_node:Optional[WordLinesList] = ht.bins[idx]
+
+    while current_node is not None:
+        if current_node.first.word == word:
+            return True
+        current_node = current_node.rest
+    return False
+
 # Return the line numbers associated with the key 'word' in 'ht'.
 # The returned list should not contain duplicates, but need not be sorted.
 def lookup(ht: HashTable, word: str) -> List[int]:
