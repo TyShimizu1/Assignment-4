@@ -296,5 +296,12 @@ class Tests(unittest.TestCase):
 
             if os.path.exists(out_path):
                 os.unlink(out_path)
+
 if (__name__ == '__main__'):
-    unittest.main()
+    full_concordance(
+    "Assignment-4/mobydick.txt",
+    "Assignment-4/large_stop.txt",
+    "Assignment-4/large_output.txt"
+    )
+    print("done")           
+    unittest.main()      
